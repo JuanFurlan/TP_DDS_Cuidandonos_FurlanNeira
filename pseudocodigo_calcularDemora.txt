@@ -1,0 +1,27 @@
+Función calcularDemora(seDetieneEnCadaParada: Bool, trayecto: Trayecto):
+    List tiempo_entre_paradas
+
+        for parada in trayecto.paradas:
+            parada1=trayecto.paradas[parada.index]
+            parada2=trayecto.paradas[parada.index+1]
+            distancia = obtenerDistancia(parada1,parada2)
+            tiempo_entre_paradas = calcularTiempo(distancia)
+
+            return tiempo_entre_paradas
+
+    if not seDetieneEnCadaParada:
+        tiempo_total_aprox = tiempo_entre_paradas.sum
+        return tiempo_total_aprox.toList
+
+
+Función obtenerDistancia(origen, destino):
+    # Esta función hace una solicitud a la API de Distance Matrix para obtener la distancia
+    # entre las coordenadas de origen y destino.
+    # Devuelve la distancia entre las dos direcciones en metros
+    ...
+
+
+Función calcularTiempo(distancia):
+    # Esta función utiliza una velocidad promedio para calcular el tiempo en función de la distancia
+    # Devuelve el tiempo aproximado en minutos
+    ...
