@@ -1,9 +1,9 @@
-Función calcularDemora(seDetieneEnCadaParada: Bool, trayecto: Trayecto):
+Función calcularDemora(seDetieneEnCadaParada: Bool):
     List tiempo_entre_paradas
 
-        for parada in trayecto.paradas:
-            parada1=trayecto.paradas[parada.index]
-            parada2=trayecto.paradas[parada.index+1]
+        for parada in self.paradas:
+            parada1 = self.paradas[parada.index]
+            parada2 = self.paradas[parada.index+1]
             distancia = obtenerDistancia(parada1,parada2)
             tiempo_entre_paradas = calcularTiempo(distancia)
 
