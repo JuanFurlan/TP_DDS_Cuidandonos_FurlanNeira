@@ -1,27 +1,50 @@
-Función calcularDemora(seDetieneEnCadaParada: Bool):
-    List tiempo_entre_paradas
+public class Trayecto {
+    // Atributos y métodos de la clase Trayecto...
 
-        for parada in self.paradas:
-            parada1 = self.paradas[parada.index]
-            parada2 = self.paradas[parada.index+1]
-            distancia = obtenerDistancia(parada1,parada2)
-            tiempo_entre_paradas = calcularTiempo(distancia)
+    private AdaptadorConcreto adaptador;
 
-            return tiempo_entre_paradas
+    public Double calcularDemora() {
+        Parada parada1 = this.paradas.get(0);
+        Parada parada2 = this.paradas.get(1);
+        Double distancia = this.adaptador.adaptar(parada1, parada2);
+        Double tiempoEntreParadas = calcularTiempo(distancia);
+        
+        if (!this.seDetieneEnCadaParada()) {
+            Double tiempoTotalAprox = 0.0;
+            for (Parada parada : paradas) {
+                tiempoTotalAprox += parada.getTiempoEntreParadas();
+            }
+            return tiempoTotalAprox;
+        } else {
+            return tiempoEntreParadas;
+        }
+    }
+}
 
-    if not seDetieneEnCadaParada:
-        tiempo_total_aprox = tiempo_entre_paradas.sum
-        return tiempo_total_aprox.toList
+class AdaptadorConcreto implements Adaptador {
+    private DistanceMatrix api;
 
+    public AdaptadorConcreto(DistanceMatrix api) {
+        this.api = api;
+    }
 
-Función obtenerDistancia(origen, destino):
-    # Esta función hace una solicitud a la API de Distance Matrix para obtener la distancia
-    # entre las coordenadas de origen y destino.
-    # Devuelve la distancia entre las dos direcciones en metros
-    ...
+    public Double adaptar(Parada origen, Parada destino) {
+        Integer distancia = this.api.sacarDistancia(origen, destino);
+        return adaptarDistancia(distancia);
+    }
 
+    public Double adaptarDistancia(Integer distancia) {
+        // Implementación de adaptación de distancia...
+        return (double) distancia; // Por ahora solo se devuelve la misma distancia
+    }
+}
 
-Función calcularTiempo(distancia):
-    # Esta función utiliza una velocidad promedio para calcular el tiempo en función de la distancia
-    # Devuelve el tiempo aproximado en minutos
-    ...
+public interface Adaptador {
+    public Double adaptar(Parada origen, Parada destino);
+}
+
+// Código de la API
+public interface DistanceMatrix {
+    public Integer sacarDistancia(Parada origen, Parada destino);
+}
+
