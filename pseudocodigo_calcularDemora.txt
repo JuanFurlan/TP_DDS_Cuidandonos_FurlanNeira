@@ -24,10 +24,6 @@ public class Trayecto {
 class AdaptadorConcreto implements Adaptador {
     private DistanceMatrix api;
 
-    public AdaptadorConcreto(DistanceMatrix api) {
-        this.api = api;
-    }
-
     public Double adaptar(Parada origen, Parada destino) {
         Integer distancia = this.api.sacarDistancia(origen, destino);
         return adaptarDistancia(distancia);
