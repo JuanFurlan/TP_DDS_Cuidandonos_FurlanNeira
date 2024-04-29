@@ -4,19 +4,23 @@ public class Trayecto {
     private AdaptadorConcreto adaptador;
 
     public Double calcularDemora() {
-        Parada parada1 = this.paradas.get(0);
-        Parada parada2 = this.paradas.get(1);
-        Double distancia = this.adaptador.adaptar(parada1, parada2);
-        Double tiempoEntreParadas = calcularTiempo(distancia);
-        
-        if (!this.seDetieneEnCadaParada()) {
+        if (this.seDetieneEnCadaParada()) {
+            // Calcular demoras por secciones
             Double tiempoTotalAprox = 0.0;
-            for (Parada parada : paradas) {
-                tiempoTotalAprox += parada.getTiempoEntreParadas();
+            for (int i = 0; i < paradas.size() - 1; i++) {
+                Parada paradaActual = this.paradas.get(i);
+                Parada siguienteParada = this.paradas.get(i + 1);
+                Double distancia = this.adaptador.adaptar(paradaActual, siguienteParada);
+                Double tiempoEntreParadas = calcularTiempo(distancia);
+                tiempoTotalAprox += tiempoEntreParadas;
             }
             return tiempoTotalAprox;
         } else {
-            return tiempoEntreParadas;
+            // Calcular demora total aproximada
+            Parada primeraParada = this.paradas.get(0);
+            Parada ultimaParada = this.paradas.get(paradas.size() - 1);
+            Double distanciaTotal = this.adaptador.adaptar(primeraParada, ultimaParada);
+            return calcularTiempo(distanciaTotal);
         }
     }
 }
